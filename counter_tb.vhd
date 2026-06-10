@@ -96,18 +96,25 @@ end procedure Count_Procedure;
 
 procedure Overflow_Procedure is
 	
-    variable expectedValOverflow : unsigned(7 downto 0) := (others => '1');
+    variable expectedValOverflow : unsigned(7 downto 0) := (others => '0');
     variable Overflow_Test : AlertLogIDType;
 	
     begin
 	Overflow_Test := GetAlertLogID("Overflow_Test");
 	log("Starting Overflow Verification Piece");
-	enable_TB <= '1';
+	enable_TB <= '0';
+	reset_TB <= '1';
 	wait until rising_edge(clock_TB);
+	reset_TB <= '0';
+	enable_TB <= '1';
+
+	for i in 0 to 255 loop
+    		wait until rising_edge(clock_TB);
+	end loop;
 	
-	expectedValOverflow := "00000000";
+	
 	wait for 5 ns;
-	AffirmIfEqual(Overflow_Test, unsigned(count_TB), expectedValOverflow, "Overflow Failed to Reset");
+	AffirmIfEqual(Overflow_Test, unsigned(count_TB), expectedValOverflow, "Overflow Failed to Reset" );
 	
 
 end procedure Overflow_Procedure;

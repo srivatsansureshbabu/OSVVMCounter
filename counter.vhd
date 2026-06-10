@@ -49,7 +49,11 @@ process(clock)
             if reset = '1' then
                 tempCount <= "00000000";
             elsif enable = '1' then
-                tempCount <= tempCount +1 ;
+		if tempCount = "11111111" then
+		    tempCount <= "00000000";
+		else
+                    tempCount <= tempCount +1;
+		end if; 
             end if;
         end if;
         end process;
