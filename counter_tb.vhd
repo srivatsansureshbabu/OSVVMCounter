@@ -26,11 +26,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
---library osvvm;
---use osvvm.RandomPkg.all;
---use osvvm.AlertLogPkg.all;
---use osvvm.RandomPkg.all;
---use osvvm.AlertLogPkg.all;
+
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
@@ -69,8 +65,6 @@ variable Reset_Test : AlertLogIDType;
 	begin
 	Reset_Test := GetAlertLogID("Reset_Test");
 
-	LinkTestCases(Reset_Test);
-	--SetTestName("Reset_Test");
 	log("Starting Reset Verification Piece",ALWAYS);
 	reset_TB <= '1';
 	enable_TB <= '0';
@@ -86,8 +80,7 @@ procedure Count_Procedure is
     variable expected : unsigned(7 downto 0) := (others => '0');
     variable Count_Test : AlertLogIDType;
     begin
-        --SetTestName("Count_Test");
-        Count_Test := GetAlertLogID("Count_Test");
+         Count_Test := GetAlertLogID("Count_Test");
 
         log("Starting Counter Verification Piece",ALWAYS);
         for i in 0 to 50 loop
@@ -97,41 +90,18 @@ procedure Count_Procedure is
             expected := expected +1;
         
             wait for 1 ns;
-            AffirmIfEqual(Count_Test, unsigned(count_TB), expected, "Counter failed while counting");
+            AffirmIfEqual(Count_Test, unsigned(count_TB), expected, "Counter failed while counting val");
        end loop;
 end procedure Count_Procedure;
 
 
     begin
     SetTestName("counter_tb");
+
     Reset_Procedure;
+    
     Count_Procedure;
-    --SetTestName("counter_tb");
-    --log("Starting Reset Verification Piece",ALWAYS);
-    --reset_TB <= '1';
-    --enable_TB <= '0';
-    --wait for 20 ns;
-    
-
-    --AffirmIfEqual(unsigned(count_TB), "00000000", "Counter failed to clear on reset!");
-
-    --reset_TB <= '0';
-
-    
-    --enable_TB <= '1';
-    
-    --SetTestName("counter_tb");
-    --log("Starting Counter Verification Piece",ALWAYS);
-    --for i in 0 to 50 loop
-    
-      --  wait until rising_edge(clock_TB);
-        
-       -- expected := expected +1;
-        
-        --wait for 1 ns;
-       -- AffirmIfEqual(unsigned(count_TB), expected, "Counter failed while counting");
-   --end loop;
-   
+ 
    EndOfTestSummary;
    std.env.stop;
    wait;
