@@ -89,11 +89,28 @@ procedure Count_Procedure is
         
             expected := expected +1;
         
-            wait for 1 ns;
+            wait for 5 ns;
             AffirmIfEqual(Count_Test, unsigned(count_TB), expected, "Counter failed while counting val");
        end loop;
 end procedure Count_Procedure;
 
+procedure Overflow_Procedure is
+	
+    variable expectedValOverflow : unsigned(7 downto 0) := (others => '1');
+    variable Overflow_Test : AlertLogIDType;
+	
+    begin
+	Overflow_Test := GetAlertLogID("Overflow_Test");
+	log("Starting Overflow Verification Piece");
+	enable_TB <= '1';
+	wait until rising_edge(clock_TB);
+	
+	expectedValOverflow := "00000000";
+	wait for 5 ns;
+	AffirmIfEqual(Overflow_Test, unsigned(count_TB), expectedValOverflow, "Overflow Failed to Reset");
+	
+
+end procedure Overflow_Procedure;
 
     begin
     SetTestName("counter_tb");
@@ -101,7 +118,9 @@ end procedure Count_Procedure;
     Reset_Procedure;
     
     Count_Procedure;
- 
+    
+    Overflow_Procedure;
+
    EndOfTestSummary;
    std.env.stop;
    wait;
