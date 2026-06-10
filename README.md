@@ -1,6 +1,7 @@
 # OSVVM Practice
 
-Make sure to download the OSVVM instructions for this to work : OSVVM_Documents[https://github.com/osvvm/OSVVM-Scripts#readme]
+Make sure to download the OSVVM instructions for this to work
+- [OSVVM Documentation](https://github.com/osvvm/OSVVM-Scripts#readme)
 
 The purpose of this repo is to practice OSVVM, and create good test cases. I used the counter module, as its a beginner friendly VHDL project, and easy to validate. 
 
